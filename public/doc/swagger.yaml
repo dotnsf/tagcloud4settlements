@@ -1,0 +1,88 @@
+swagger: '2.0'
+info:
+  description: TagCloud for Settlements API ドキュメント
+  version: 0.0.1
+  title: TagCloud for Settlements Platform REST APIs
+host: localhost:8080
+basePath: /
+tags:
+  - name: settlement
+    description: API for Settlements
+  - name: other
+    description: etc
+schemes:
+  - http
+  - https
+paths:
+  /names:
+    get:
+      tags:
+        - settlement
+      summary: アカウント名一覧
+      description: アカウント名一覧を取得する
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+  /wordsweightbyname:
+    get:
+      tags:
+        - settlement
+      summary: 企業のデータを取得する
+      description: 指定した企業の四半期ごとのデータおよび単語とその登場回数を取得する
+      parameters:
+        - name: name
+          type: string
+          in: query
+          description: 企業名
+          required: true
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+  /weightsbynameword:
+    get:
+      tags:
+        - settlement
+      summary: 企業名と単語から登場回数を四半期ごとに取得する
+      description: 指定した企業名と単語から登場回数を四半期ごとに取得する
+      parameters:
+        - name: name
+          type: string
+          in: query
+          description: 企業名
+          required: true
+        - name: word
+          type: string
+          in: query
+          description: 単語
+          required: true
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+  /reset:
+    post:
+      tags:
+        - settlement
+      summary: データをリセットする
+      description: データをリセットする
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー
+  /dburl:
+    get:
+      tags:
+        - other
+      summary: DB URL を取得する
+      description: データベース・ダッシュボード画面の URL を取得する
+      responses:
+        '200':
+          description: 成功
+        '400':
+          description: エラー

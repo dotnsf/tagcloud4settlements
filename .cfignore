@@ -1,5 +1,7 @@
 node_modules/
 package-lock.json
+old_pdfs/
 pdfs/*.pdf
 pdfs/*.csv
 settings.js.*
+npm-debug.log

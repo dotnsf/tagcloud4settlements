@@ -147,6 +147,55 @@ app.get( '/weightsbynameword', function( req, res ){
   }
 });
 
+app.post( '/reset', function( req, res ){
+  res.contentType( 'application/json; charset=utf-8' );
+
+  if( db ){
+    db.list( {}, function( err, result ){
+      if( err ){
+        res.status( 400 );
+        res.write( JSON.stringify( { status: false, message: err }, 2, null ) );
+        res.end();
+      }else{
+        var docs = [];
+        result.rows.forEach( function( doc ){
+          if( !doc.id.startsWith( '_' ) ){
+            docs.push( { _id: doc.id, _rev: doc.value.rev, _deleted: true } );
+          }
+        });
+        db.bulk( { docs: docs }, function( err ){
+          if( err ){
+            res.status( 400 );
+            res.write( JSON.stringify( { status: false, message: err }, 2, null ) );
+            res.end();
+          }else{
+            res.write( JSON.stringify( { status: true }, 2, null ) );
+            res.end();
+          }
+        });
+      }
+    });
+  }else{
+    res.status( 400 );
+    res.write( JSON.stringify( { status: false, error: 'db not initialized.' } ) );
+    res.end();
+  }
+});
+
+app.get( '/dburl', function( req, res ){
+  res.contentType( 'application/json; charset=utf-8' );
+
+  if( db ){
+    var url = 'https://' + settings.db_username + ':' + settings.db_password + '@' + settings.db_username + '.cloudant.com/dashboard.html';
+    res.write( JSON.stringify( { status: true, url: url } ) );
+    res.end();
+  }else{
+    res.status( 400 );
+    res.write( JSON.stringify( { status: false, error: 'db not initialized.' } ) );
+    res.end();
+  }
+});
+
 
 function compare( a, b ){
   if( a.weight < b.weight ){

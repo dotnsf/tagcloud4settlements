@@ -76,7 +76,15 @@ function processFile( fileList, idx ){
 
       text2morphs( text ).then( function( results ){
         var id = tmp1[tmp1.length-1]; //. ファイル名を id とする
-        var data = { _id: id, filename: id, name: name, yyyy: yyyy, nn: nn, results: results, datetime: ( new Date() ).getTime() };
+        var data = {
+          _id: id,
+          filename: id,
+          name: name,
+          yyyy: yyyy,
+          nn: nn,
+          results: results,
+          datetime: ( new Date() ).getTime()
+        };
         if( db ){
           db.insert( data, function( err, body ){
             setTimeout( function(){
