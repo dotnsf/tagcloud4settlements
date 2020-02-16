@@ -147,6 +147,20 @@ app.get( '/weightsbynameword', function( req, res ){
   }
 });
 
+app.get( '/pdf/:id', function( req, res ){
+  var id = req.query.id;
+  db.attachment.get( id, id, function( err, body ){
+    if( err ){
+      res.contentType( 'application/json; charset=utf-8' );
+      res.write( JSON.stringify( { status: false, error: err } ) );
+      res.end();
+    }else{
+      res.contentType( 'application/pdf' );
+      res.end( body, 'binary' );
+    }
+  });
+});
+
 app.post( '/reset', function( req, res ){
   res.contentType( 'application/json; charset=utf-8' );
 

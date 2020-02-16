@@ -55,7 +55,9 @@ fs.readdir( target_folder, function( err, files ){
   });
 
   //. fileList 内のファイルを１つずつ処理していく
-  processFile( fileList, 0 );
+  setTimeout( function(){
+    processFile( fileList, 0 );
+  }, 3000 );
 });
 
 
@@ -76,6 +78,7 @@ function processFile( fileList, idx ){
 
       text2morphs( text ).then( function( results ){
         var id = tmp1[tmp1.length-1]; //. ファイル名を id とする
+        var buf64 = new Buffer( buf ).toString( 'base64' );
         var data = {
           _id: id,
           filename: id,
@@ -83,8 +86,10 @@ function processFile( fileList, idx ){
           yyyy: yyyy,
           nn: nn,
           results: results,
-          datetime: ( new Date() ).getTime()
+          datetime: ( new Date() ).getTime(),
+          _attachments: {}
         };
+        data._attachments[id] = { content_type: 'application/pdf', data: buf64 };
         if( db ){
           db.insert( data, function( err, body ){
             setTimeout( function(){
@@ -92,7 +97,7 @@ function processFile( fileList, idx ){
             }, 1000 );
           });
         }else{
-          console.log( data );
+          console.log( 'db not ready: ' + id );
           setTimeout( function(){
             processFile( fileList, idx + 1 );
           }, 1000 );
