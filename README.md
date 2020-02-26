@@ -5,9 +5,13 @@
 Web application which shows tag-cloud of account's quarterly settlements.
 
 
-## Pre-requisites
+## Data import
 
-Before running import.js, you need to put quarterly materials of company account in ./pdfs/ folder with following filename format:
+We provide **2** data import tools, **import.js** and **import_url.js**. You can choose both tool which you like.
+
+### Pre-requisites for import.js
+
+Before running import.js, you need to put quarterly materials of company account in **./pdfs/** folder with following filename format:
 
 - Company_Name.YYYY.nn.pdf
 
@@ -19,14 +23,36 @@ Before running import.js, you need to put quarterly materials of company account
 
   - For example, `ABC株式会社.2020.1.pdf` , that would be the first material of ABC株式会社 year of 2020.
 
-
-## Import materials
+### Import materials with import.js
 
 - `$ node import`
 
   - This command would import material information under ./pdfs/ folder into system.
 
   - You can add materials anytime, but you need to run this command again.
+
+### Pre-requisites for import_url.js
+
+Before running import_url.js, you need to prepare URL information of quarterly materials of company account in **./pdfs.csv** with following line format:
+
+- URL,output filename
+
+  - URL : public URL of PDF
+
+  - output filename : filename of PDF file, which would be id in database.
+
+    - For example, `ABC株式会社.2020.1.pdf` , that would be the first material of ABC株式会社 year of 2020.
+
+### Import materials with import_url.js
+
+- `$ node import_url`
+
+  - This command would import material information with ./pdfs.csv file into system.
+
+  - You can add materials anytime, but you need to run this command again.
+
+  - Downloaded PDF file would be saved under ./pdfs folder.
+
 
 
 ## References
